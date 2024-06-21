@@ -4,5 +4,5 @@
 
 TEST_CASE("do_something") {
   do_something();
-  CHECK(1==1);
+  // CHECK(1==1);
 }
