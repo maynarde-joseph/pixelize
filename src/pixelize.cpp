@@ -27,3 +27,37 @@ std::vector<uchar> pixelateImage(const std::vector<uchar> &inputBuffer, int w, i
 
   return outputBuffer;
 }
+
+int main() {
+  std::vector<uchar> inputBuffer;
+  std::ifstream file("../images/wiz.png", std::ios::binary);
+
+  if (file.is_open()) {
+    file.seekg(0, std::ios::end);
+    size_t fileSize = file.tellg();
+    file.seekg(0, std::ios::beg);
+
+    inputBuffer.resize(fileSize);
+    file.read(reinterpret_cast<char *>(inputBuffer.data()), fileSize);
+    file.close();
+    std::vector<uchar> outputBuffer = pixelateImage(inputBuffer, 64, 64);
+
+    try {
+      std::ofstream outputFile("output.jpg", std::ios::binary);
+      if (outputFile.is_open()) {
+        outputFile.write(reinterpret_cast<const char *>(outputBuffer.data()),
+                         outputBuffer.size());
+        outputFile.close();
+        std::cout << "Pixelated image saved as output.jpg" << std::endl;
+      } else {
+        std::cerr << "Failed to open output file." << std::endl;
+      }
+    } catch (const std::exception &e) {
+      std::cerr << "Error: " << e.what() << std::endl;
+    }
+  } else {
+    std::cerr << "Failed to open input file." << std::endl;
+  }
+
+  return 0;
+}
