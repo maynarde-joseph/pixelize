@@ -19,6 +19,13 @@ std::vector<uchar> pixelateImage(const std::vector<uchar> &inputBuffer, int w, i
   std::vector<uchar> outputBuffer;
   cv::imencode(".jpg", output, outputBuffer);
 
+  // Uncomment to comfirm size
+  // cv::Mat out2 = cv::imdecode(outputBuffer, cv::IMREAD_COLOR);
+  // int height = out2.rows;
+  // int width = out2.cols;
+  // std::cout << height << '\n';
+  // std::cout << width << '\n';
+  
   return outputBuffer;
 }
 
