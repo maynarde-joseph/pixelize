@@ -13,14 +13,8 @@
 std::vector<uchar> pixelateImage(const std::vector<uchar> &inputBuffer, int w, int h) {
   cv::Mat input = cv::imdecode(inputBuffer, cv::IMREAD_COLOR);
 
-  int height = input.rows;
-  int width = input.cols;
-
-  cv::Mat temp;
-  cv::resize(input, temp, cv::Size(w, h), 0, 0, cv::INTER_LINEAR);
-
   cv::Mat output;
-  cv::resize(temp, output, cv::Size(width, height), 0, 0, cv::INTER_NEAREST);
+  cv::resize(input, output, cv::Size(w, h), 0, 0, cv::INTER_LINEAR);
 
   std::vector<uchar> outputBuffer;
   cv::imencode(".jpg", output, outputBuffer);
@@ -30,7 +24,7 @@ std::vector<uchar> pixelateImage(const std::vector<uchar> &inputBuffer, int w, i
 
 int main() {
   std::vector<uchar> inputBuffer;
-  std::ifstream file("../images/wiz.png", std::ios::binary);
+  std::ifstream file("../images/wiz2.png", std::ios::binary);
 
   if (file.is_open()) {
     file.seekg(0, std::ios::end);
@@ -40,7 +34,7 @@ int main() {
     inputBuffer.resize(fileSize);
     file.read(reinterpret_cast<char *>(inputBuffer.data()), fileSize);
     file.close();
-    std::vector<uchar> outputBuffer = pixelateImage(inputBuffer, 64, 64);
+    std::vector<uchar> outputBuffer = pixelateImage(inputBuffer, 32, 32);
 
     try {
       std::ofstream outputFile("output.jpg", std::ios::binary);
